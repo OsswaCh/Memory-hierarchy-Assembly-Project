@@ -104,7 +104,7 @@ public:
             misses++;
             blocks[index].valid = true;
             blocks[index].tag = tag;
-            return 2 * accessCycles;
+            return 120 + accessCycles; // 120 cycles to read from main memory + accessCycles to read from cache
         }
     }
 };
