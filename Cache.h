@@ -82,7 +82,7 @@ public:
 
     int getAccessTime()
     {
-        return (hits * accessCycles + misses * 2 * accessCycles) / accesses;
+        return (hits * accessCycles + misses * 120) / accesses; // it takes 120 cycles to read from main memory
     }
 
     int directMapping(int address)
@@ -104,7 +104,15 @@ public:
             misses++;
             blocks[index].valid = true;
             blocks[index].tag = tag;
-            return 120 + accessCycles; // 120 cycles to read from main memory + accessCycles to read from cache
+            accessCycles += 120; // 120 cycles to read from main memory + accessCycles to read from cache
+            return accessCycles;
         }
+    }
+
+    int AMAt()
+    {
+        int missRate = getMissRate();
+
+        return accessCycles + missRate * 120; // 120 cycles to read from main memory, thus Miss penality
     }
 };
